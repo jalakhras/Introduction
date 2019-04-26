@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FEE6A9D1-A639-4057-B865-D14A7658A811}</ProjectGuid>
+    <ProjectGuid>{91F42D3F-6EC1-4A72-AB9D-282AAC0BFF06}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Introduction</RootNamespace>
-    <AssemblyName>Introduction</AssemblyName>
+    <RootNamespace>Features</RootNamespace>
+    <AssemblyName>Features</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Employee.cs" />
+    <Compile Include="MyLinq.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

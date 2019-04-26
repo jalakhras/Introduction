@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FEE6A9D1-A639-4057-B865-D14A7658A811}</ProjectGuid>
+    <ProjectGuid>{C8694D82-E067-4BF8-9752-3B99AD231FC9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Introduction</RootNamespace>
-    <AssemblyName>Introduction</AssemblyName>
+    <RootNamespace>Queries</RootNamespace>
+    <AssemblyName>Queries</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Movie.cs" />
+    <Compile Include="MyLinq.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
