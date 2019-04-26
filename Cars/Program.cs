@@ -11,11 +11,13 @@ namespace Cars
     {
         static void Main(string[] args)
         {
-           
+            //Note Combined=> Fuel efficiency
             var cars = ProcessFile("fuel.csv");
-            foreach (var car in cars)
+            var query = cars.OrderByDescending(c => c.Combined)
+                .ThenBy(c=>c.Name);
+            foreach (var car in query.Take(10))
             {
-                Console.WriteLine(car.Name);
+                Console.WriteLine($"{car.Name} :{car.Combined}");
             }
         }
 
