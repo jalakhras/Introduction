@@ -12,18 +12,22 @@ namespace Cars
             //Finding the Most Fuel Efficient Car
             //Note Combined=> Fuel efficiency
             var cars = ProcessFile("fuel.csv");
-            var query = cars.OrderByDescending(c => c.Combined)
-                .ThenBy(c=>c.Name);
-            
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query =
+                from car in cars
+                join manufacturer in manufacturers
+                    on car.Manufacturer equals manufacturer.Name
+                orderby car.Combined descending, car.Name ascending
+                select new 
+                {
+                    manufacturer.Headquarters,
+                    car.Name,
+                    car.Combined
+                };
             foreach (var car in query.Take(10))
             {
-                Console.WriteLine($"{car.Name} :{car.Combined}");
+                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
             }
-
-            var BMWMostFuelEfficient = cars.Where(car => car.Manufacturer == "BMW" && car.Year == 2016).OrderByDescending(c => c.Combined)
-                 .ThenBy(c => c.Name).FirstOrDefault();
-            Console.WriteLine("******BMW : Most Fuel Efficient ******");
-            Console.WriteLine($"{BMWMostFuelEfficient.Name} :{BMWMostFuelEfficient.Combined}");
 
         }
 
@@ -35,6 +39,24 @@ namespace Cars
                     .ToCar()
                     .ToList();
         }
+        private static List<Manufacturer> ProcessManufacturers(string path)
+        {
+            var query =
+                   File.ReadAllLines(path)
+                       .Where(l => l.Length > 1)
+                       .Select(l =>
+                       {
+                           var columns = l.Split(',');
+                           return new Manufacturer
+                           {
+                               Name = columns[0],
+                               Headquarters = columns[1],
+                               Year = int.Parse(columns[2])
+                           };
+                       });
+            return query.ToList();
+        }
+
     }
 
     public static class CarExtensions
