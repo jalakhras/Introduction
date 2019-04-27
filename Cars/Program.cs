@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace Cars
 {
@@ -9,11 +10,32 @@ namespace Cars
     {
         static void Main(string[] args)
         {
+
+            #region Work with Xml 
+            var records = ProcessFile("fuel.csv");
+            var document = new XDocument();
+            var cars = new XElement("Cars");
+            foreach (var record in records)
+            {
+                var car = new XElement("Car");
+                var name = new XElement("Name",record.Name);
+                var combined = new XElement("Combined", record.Combined);
+                car.Add(name);
+                car.Add(combined);
+                cars.Add(car);
+            }
+            document.Add(cars);
+            document.Save("fuel.xml");
+            #endregion
+
+
+
+            #region Quere
             #region Get Data from data source
             //Finding the Most Fuel Efficient Car
             //Note Combined=> Fuel efficiency
-            var cars = ProcessFile("fuel.csv");
-            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            //var cars = ProcessFile("fuel.csv");
+            //var manufacturers = ProcessManufacturers("manufacturers.csv");
             #endregion
             #region Joining Data with Query Syntax
             //Joining Data with Query Syntax
@@ -155,61 +177,62 @@ namespace Cars
 
 
             #region Aggregating Data with Query Syntax 
-            var query =
-                from car in cars
-                group car by car.Manufacturer into carGroup
-                select new
-                {
-                    Name = carGroup.Key,
-                    Max = carGroup.Max(c => c.Combined),
-                    Min = carGroup.Min(c => c.Combined),
-                    Avg = carGroup.Average(c => c.Combined),
+            //var query =
+            //    from car in cars
+            //    group car by car.Manufacturer into carGroup
+            //    select new
+            //    {
+            //        Name = carGroup.Key,
+            //        Max = carGroup.Max(c => c.Combined),
+            //        Min = carGroup.Min(c => c.Combined),
+            //        Avg = carGroup.Average(c => c.Combined),
 
-                } into result
-                orderby result.Max descending
-                select result;
-
-
+            //    } into result
+            //    orderby result.Max descending
+            //    select result;
 
 
-            Console.WriteLine();
-            Console.WriteLine("***** Aggregating Data with Query Syntax   *****");
-            Console.WriteLine();
-            foreach (var result in query)
-            {
-                Console.WriteLine($"{result.Name}");
-                Console.WriteLine($"\t Max : {result.Max}");
-                Console.WriteLine($"\t Min : {result.Min}");
-                Console.WriteLine($"\t Avg : {result.Avg}");
 
 
-            }
+            //Console.WriteLine();
+            //Console.WriteLine("***** Aggregating Data with Query Syntax   *****");
+            //Console.WriteLine();
+            //foreach (var result in query)
+            //{
+            //    Console.WriteLine($"{result.Name}");
+            //    Console.WriteLine($"\t Max : {result.Max}");
+            //    Console.WriteLine($"\t Min : {result.Min}");
+            //    Console.WriteLine($"\t Avg : {result.Avg}");
+
+
+            //}
             #endregion
             #region Aggregating Data with Method Syntax 
-            var query2 =
-               cars.GroupBy(c => c.Manufacturer)
-                   .Select(g =>
-                   {
-                       var results = g.Aggregate(new CarStatistics(),
-                                           (acc, c) => acc.Accumulate(c),
-                                           acc => acc.Compute());
-                       return new
-                       {
-                           Name = g.Key,
-                           Avg = results.Average,
-                           Min = results.Min,
-                           Max = results.Max
-                       };
-                   })
-                   .OrderByDescending(r => r.Max);
+            //var query2 =
+            //   cars.GroupBy(c => c.Manufacturer)
+            //       .Select(g =>
+            //       {
+            //           var results = g.Aggregate(new CarStatistics(),
+            //                               (acc, c) => acc.Accumulate(c),
+            //                               acc => acc.Compute());
+            //           return new
+            //           {
+            //               Name = g.Key,
+            //               Avg = results.Average,
+            //               Min = results.Min,
+            //               Max = results.Max
+            //           };
+            //       })
+            //       .OrderByDescending(r => r.Max);
 
-            foreach (var result in query2)
-            {
-                Console.WriteLine($"{result.Name}");
-                Console.WriteLine($"\t Max: {result.Max}");
-                Console.WriteLine($"\t Min: {result.Min}");
-                Console.WriteLine($"\t Avg: {result.Avg}");
-            }
+            //foreach (var result in query2)
+            //{
+            //    Console.WriteLine($"{result.Name}");
+            //    Console.WriteLine($"\t Max: {result.Max}");
+            //    Console.WriteLine($"\t Min: {result.Min}");
+            //    Console.WriteLine($"\t Avg: {result.Avg}");
+            //}
+            #endregion
             #endregion
         }
 
