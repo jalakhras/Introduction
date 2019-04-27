@@ -10,212 +10,22 @@ namespace Cars
     {
         static void Main(string[] args)
         {
+            #region Work With XML
             CreateXML();
-
-
+            QueryXml();
+            #endregion
             #region Quere
-            #region Get Data from data source
-            //Finding the Most Fuel Efficient Car
-            //Note Combined=> Fuel efficiency
-            //var cars = ProcessFile("fuel.csv");
-            //var manufacturers = ProcessManufacturers("manufacturers.csv");
-            #endregion
-            #region Joining Data with Query Syntax
-            //Joining Data with Query Syntax
-            //var query =
-            //    from car in cars
-            //    join manufacturer in manufacturers
-            //        on new { car.Manufacturer ,car.Year}
-            //        equals new { Manufacturer= manufacturer.Name, manufacturer.Year }
-            //    orderby car.Combined descending, car.Name ascending
-            //    select new 
-            //    {
-            //        manufacturer.Headquarters,
-            //        car.Name,
-            //        car.Combined
-            //    };
+            //AggregatingDataWithQuerySyntax();
+            //AggregatingDatawithMethodSyntax();
 
-            //Console.WriteLine();
-            //Console.WriteLine("***** Joining Data with Query Syntax *****");
-            //Console.WriteLine();
-            //foreach (var car in query.Take(10))
-            //{
-            //    Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
-            //}
-            #endregion
-            #region Joining Data Using Method Syntax 
-            //Joining Data Using Method Syntax
-            //var query2 = cars.Join(manufacturers,
-            //                         c => new { c.Manufacturer, c.Year },
-            //                         m => new { Manufacturer = m.Name, m.Year },
-            //                          (c, m) => new
-            //                              {
-            //                                  m.Headquarters,
-            //                                  c.Name,
-            //                                  c.Combined
-            //                              })
-            //                       .OrderByDescending(c => c.Combined)
-            //                      .ThenBy(m => m.Name);
-            //Console.WriteLine();
-            //Console.WriteLine("***** Joining Data Using Method Syntax *****");
-            //Console.WriteLine();
-            //foreach (var car in query2.Take(10))
-            //{
-            //    Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
-            //}
-            #endregion
+            //JoiningDataWithQuerySyntax();
+            //JoiningDataWithMethodSyntax();
 
-            #region Grouping Data with Query Syntax 
-            //var query =
-            //    from car in cars
-            //    group car by car.Manufacturer.ToUpper()
-            //    into manufacturer
-            //    orderby manufacturer.Key
-            //    select manufacturer;
+            //GroupingDataWithQuerySyntax();
+            //GroupingDataWithMethodSyntax();
 
-            //Console.WriteLine();
-            //Console.WriteLine("***** Grouping Data with Query Syntax  *****");
-            //Console.WriteLine();
-            //foreach (var group in query)
-            //{
-            //    Console.WriteLine(group.Key);
-            //    foreach (var car in group.OrderByDescending(c=>c.Combined).Take(2))
-            //    {
-            //        Console.WriteLine($"\t{car.Name} : {car.Combined}");
-            //    }
-
-            //}
-            #endregion
-            #region Grouping Data with Method Syntax 
-            //var query2 = cars.GroupBy(c => c.Manufacturer.ToUpper())
-            //    .OrderBy(g => g.Key);
-            //Console.WriteLine();
-            //Console.WriteLine("***** Grouping Data with Method Syntax *****");
-            //Console.WriteLine();
-            //foreach (var group in query2)
-            //{
-            //    Console.WriteLine(group.Key);
-            //    foreach (var car in group.OrderByDescending(c => c.Combined).Take(2))
-            //    {
-            //        Console.WriteLine($"\t{car.Name} : {car.Combined}");
-            //    }
-
-            //}
-
-            #endregion
-
-
-            #region Using a GroupJoin for Hierarchical Data with Query Syntax 
-            //var query =
-            //    from manufacturer in manufacturers
-            //    join car in cars
-            //    on manufacturer.Name equals car.Manufacturer
-            //    into carGroup
-            //    orderby manufacturer.Name
-            //    select new
-            //    {
-            //        manufacturer = manufacturer,
-            //        cars = carGroup
-            //    };
-
-
-
-            //Console.WriteLine();
-            //Console.WriteLine("***** Grouping Data with Query Syntax  *****");
-            //Console.WriteLine();
-            //foreach (var group in query)
-            //{
-            //    Console.WriteLine($"{group.manufacturer.Name} : {group.manufacturer.Headquarters}");
-            //    foreach (var car in group.cars.OrderByDescending(c => c.Combined).Take(2))
-            //    {
-            //        Console.WriteLine($"\t{car.Name} : {car.Combined}");
-            //    }
-
-            //}
-            #endregion
-            #region Using a GroupJoin for Hierarchical Data with Method Syntax 
-            //var query2 = manufacturers.GroupJoin(cars,
-            //                                     m => m.Name,
-            //                                     c => c.Manufacturer,
-            //                                     (m, g) => new
-            //                                     {
-            //                                         manufacturer = m,
-            //                                         cars = g
-            //                                     }).OrderBy(m => m.manufacturer.Name);
-
-            //Console.WriteLine();
-            //Console.WriteLine("***** Grouping Data with Method Syntax *****");
-            //Console.WriteLine();
-            //foreach (var group in query2)
-            //{
-            //    Console.WriteLine($"{group.manufacturer.Name} : {group.manufacturer.Headquarters}");
-            //    foreach (var car in group.cars.OrderByDescending(c => c.Combined).Take(2))
-            //    {
-            //        Console.WriteLine($"\t{car.Name} : {car.Combined}");
-            //    }
-
-            //}
-
-            #endregion
-
-
-            #region Aggregating Data with Query Syntax 
-            //var query =
-            //    from car in cars
-            //    group car by car.Manufacturer into carGroup
-            //    select new
-            //    {
-            //        Name = carGroup.Key,
-            //        Max = carGroup.Max(c => c.Combined),
-            //        Min = carGroup.Min(c => c.Combined),
-            //        Avg = carGroup.Average(c => c.Combined),
-
-            //    } into result
-            //    orderby result.Max descending
-            //    select result;
-
-
-
-
-            //Console.WriteLine();
-            //Console.WriteLine("***** Aggregating Data with Query Syntax   *****");
-            //Console.WriteLine();
-            //foreach (var result in query)
-            //{
-            //    Console.WriteLine($"{result.Name}");
-            //    Console.WriteLine($"\t Max : {result.Max}");
-            //    Console.WriteLine($"\t Min : {result.Min}");
-            //    Console.WriteLine($"\t Avg : {result.Avg}");
-
-
-            //}
-            #endregion
-            #region Aggregating Data with Method Syntax 
-            //var query2 =
-            //   cars.GroupBy(c => c.Manufacturer)
-            //       .Select(g =>
-            //       {
-            //           var results = g.Aggregate(new CarStatistics(),
-            //                               (acc, c) => acc.Accumulate(c),
-            //                               acc => acc.Compute());
-            //           return new
-            //           {
-            //               Name = g.Key,
-            //               Avg = results.Average,
-            //               Min = results.Min,
-            //               Max = results.Max
-            //           };
-            //       })
-            //       .OrderByDescending(r => r.Max);
-
-            //foreach (var result in query2)
-            //{
-            //    Console.WriteLine($"{result.Name}");
-            //    Console.WriteLine($"\t Max: {result.Max}");
-            //    Console.WriteLine($"\t Min: {result.Min}");
-            //    Console.WriteLine($"\t Avg: {result.Avg}");
-            //}
-            #endregion
+            //UsingAGroupJoinForHierarchicalDataWithQuerySyntax();
+            //UsingAGroupJoinForHierarchicalDataWithMethodsSyntax();
             #endregion
         }
 
@@ -236,7 +46,250 @@ namespace Cars
             document.Save("fuel.xml");
             #endregion
         }
+        private static void QueryXml()
+        {
+            GetDataFromXmlFileUsingQuereSyntax();
+            GetDataFromXMLFileUsingMethodSyntax();
+        }
 
+        private static void GetDataFromXMLFileUsingMethodSyntax()
+        {
+            var document = XDocument.Load("fuel.xml");
+            var quere2 = document.Elements("Cars").Elements("Car")
+                .Where(e => e.Attribute("Manufacturer")?.Value == "BMW").Select(
+                 e => e.Attribute("Name").Value
+                );
+            Console.WriteLine("***** Get Data from XML file Using Method Syntax *****");
+            Console.WriteLine();
+            foreach (var name in quere2)
+            {
+                Console.WriteLine(name);
+            }
+        }
+        private static void GetDataFromXmlFileUsingQuereSyntax()
+        {
+            var document = XDocument.Load("fuel.xml");
+            var quere = from element in document.Elements("Cars").Elements("Car")
+                        where element.Attribute("Manufacturer")?.Value == "BMW"
+                        select (
+                        element.Attribute("Name").Value
+                        );
+            Console.WriteLine("***** Get Data from XML file Using Quere Syntax *****");
+            Console.WriteLine();
+            foreach (var name in quere)
+            {
+                Console.WriteLine(name);
+            }
+
+        }
+
+        private static void AggregatingDataWithQuerySyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query =
+               from car in cars
+               group car by car.Manufacturer into carGroup
+               select new
+               {
+                   Name = carGroup.Key,
+                   Max = carGroup.Max(c => c.Combined),
+                   Min = carGroup.Min(c => c.Combined),
+                   Avg = carGroup.Average(c => c.Combined),
+
+               } into result
+               orderby result.Max descending
+               select result;
+            Console.WriteLine();
+            Console.WriteLine("***** Aggregating Data with Query Syntax   *****");
+            Console.WriteLine();
+            foreach (var result in query)
+            {
+                Console.WriteLine($"{result.Name}");
+                Console.WriteLine($"\t Max : {result.Max}");
+                Console.WriteLine($"\t Min : {result.Min}");
+                Console.WriteLine($"\t Avg : {result.Avg}");
+
+
+            }
+        }
+        private static void AggregatingDatawithMethodSyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query2 =
+               cars.GroupBy(c => c.Manufacturer)
+                   .Select(g =>
+                   {
+                       var results = g.Aggregate(new CarStatistics(),
+                                           (acc, c) => acc.Accumulate(c),
+                                           acc => acc.Compute());
+                       return new
+                       {
+                           Name = g.Key,
+                           Avg = results.Average,
+                           Min = results.Min,
+                           Max = results.Max
+                       };
+                   })
+                   .OrderByDescending(r => r.Max);
+
+            foreach (var result in query2)
+            {
+                Console.WriteLine($"{result.Name}");
+                Console.WriteLine($"\t Max: {result.Max}");
+                Console.WriteLine($"\t Min: {result.Min}");
+                Console.WriteLine($"\t Avg: {result.Avg}");
+            }
+        }
+
+        private static void JoiningDataWithQuerySyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query =
+                from car in cars
+                join manufacturer in manufacturers
+                    on new { car.Manufacturer, car.Year }
+                    equals new { Manufacturer = manufacturer.Name, manufacturer.Year }
+                orderby car.Combined descending, car.Name ascending
+                select new
+                {
+                    manufacturer.Headquarters,
+                    car.Name,
+                    car.Combined
+                };
+
+            Console.WriteLine();
+            Console.WriteLine("***** Joining Data with Query Syntax *****");
+            Console.WriteLine();
+            foreach (var car in query.Take(10))
+            {
+                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+            }
+        }
+        private static void JoiningDataWithMethodSyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query2 = cars.Join(manufacturers,
+                                     c => new { c.Manufacturer, c.Year },
+                                     m => new { Manufacturer = m.Name, m.Year },
+                                      (c, m) => new
+                                      {
+                                          m.Headquarters,
+                                          c.Name,
+                                          c.Combined
+                                      })
+                                   .OrderByDescending(c => c.Combined)
+                                  .ThenBy(m => m.Name);
+            Console.WriteLine();
+            Console.WriteLine("***** Joining Data Using Method Syntax *****");
+            Console.WriteLine();
+            foreach (var car in query2.Take(10))
+            {
+                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+            }
+        }
+
+        private static void GroupingDataWithQuerySyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query =
+                from car in cars
+                group car by car.Manufacturer.ToUpper()
+                into manufacturer
+                orderby manufacturer.Key
+                select manufacturer;
+
+            Console.WriteLine();
+            Console.WriteLine("***** Grouping Data with Query Syntax  *****");
+            Console.WriteLine();
+            foreach (var group in query)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+
+            }
+        }
+        private static void GroupingDataWithMethodSyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query2 = cars.GroupBy(c => c.Manufacturer.ToUpper())
+                .OrderBy(g => g.Key);
+            Console.WriteLine();
+            Console.WriteLine("***** Grouping Data with Method Syntax *****");
+            Console.WriteLine();
+            foreach (var group in query2)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+
+            }
+        }
+
+        private static void UsingAGroupJoinForHierarchicalDataWithQuerySyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query =
+                from manufacturer in manufacturers
+                join car in cars
+                on manufacturer.Name equals car.Manufacturer
+                into carGroup
+                orderby manufacturer.Name
+                select new
+                {
+                    manufacturer = manufacturer,
+                    cars = carGroup
+                };
+            Console.WriteLine();
+            Console.WriteLine("***** Grouping Data with Query Syntax  *****");
+            Console.WriteLine();
+            foreach (var group in query)
+            {
+                Console.WriteLine($"{group.manufacturer.Name} : {group.manufacturer.Headquarters}");
+                foreach (var car in group.cars.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+
+            }
+        }
+        private static void UsingAGroupJoinForHierarchicalDataWithMethodsSyntax()
+        {
+            var cars = ProcessFile("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var query2 = manufacturers.GroupJoin(cars,
+                                                m => m.Name,
+                                                c => c.Manufacturer,
+                                                (m, g) => new
+                                                {
+                                                    manufacturer = m,
+                                                    cars = g
+                                                }).OrderBy(m => m.manufacturer.Name);
+
+            Console.WriteLine();
+            Console.WriteLine("***** Grouping Data with Method Syntax *****");
+            Console.WriteLine();
+            foreach (var group in query2)
+            {
+                Console.WriteLine($"{group.manufacturer.Name} : {group.manufacturer.Headquarters}");
+                foreach (var car in group.cars.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+
+            }
+        }
 
         private static List<Car> ProcessFile(string path)
         {
@@ -263,7 +316,6 @@ namespace Cars
                        });
             return query.ToList();
         }
-
     }
     public class CarStatistics
     {
