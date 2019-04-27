@@ -10,24 +10,7 @@ namespace Cars
     {
         static void Main(string[] args)
         {
-
-            #region Work with Xml 
-            var records = ProcessFile("fuel.csv");
-            var document = new XDocument();
-            var cars = new XElement("Cars");
-            foreach (var record in records)
-            {
-                var car = new XElement("Car");
-                var name = new XElement("Name",record.Name);
-                var combined = new XElement("Combined", record.Combined);
-                car.Add(name);
-                car.Add(combined);
-                cars.Add(car);
-            }
-            document.Add(cars);
-            document.Save("fuel.xml");
-            #endregion
-
+            CreateXML();
 
 
             #region Quere
@@ -236,6 +219,23 @@ namespace Cars
             #endregion
         }
 
+        private static void CreateXML()
+        {
+            #region Work with Xml 
+            var records = ProcessFile("fuel.csv");
+            var document = new XDocument();
+            var cars = new XElement("Cars",
+                from record in records
+                select new XElement("Car",
+                                       new XAttribute("Name", record.Name),
+                                       new XAttribute("Combined", record.Combined),
+                                       new XAttribute("Manufacturer", record.Manufacturer))
+                                    );
+
+            document.Add(cars);
+            document.Save("fuel.xml");
+            #endregion
+        }
 
 
         private static List<Car> ProcessFile(string path)
