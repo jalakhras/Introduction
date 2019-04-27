@@ -17,49 +17,91 @@ namespace Cars
             #endregion
             #region Joining Data with Query Syntax
             //Joining Data with Query Syntax
-            var query =
-                from car in cars
-                join manufacturer in manufacturers
-                    on new { car.Manufacturer ,car.Year}
-                    equals new { Manufacturer= manufacturer.Name, manufacturer.Year }
-                orderby car.Combined descending, car.Name ascending
-                select new 
-                {
-                    manufacturer.Headquarters,
-                    car.Name,
-                    car.Combined
-                };
+            //var query =
+            //    from car in cars
+            //    join manufacturer in manufacturers
+            //        on new { car.Manufacturer ,car.Year}
+            //        equals new { Manufacturer= manufacturer.Name, manufacturer.Year }
+            //    orderby car.Combined descending, car.Name ascending
+            //    select new 
+            //    {
+            //        manufacturer.Headquarters,
+            //        car.Name,
+            //        car.Combined
+            //    };
 
-            Console.WriteLine();
-            Console.WriteLine("***** Joining Data with Query Syntax *****");
-            Console.WriteLine();
-            foreach (var car in query.Take(10))
-            {
-                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
-            }
+            //Console.WriteLine();
+            //Console.WriteLine("***** Joining Data with Query Syntax *****");
+            //Console.WriteLine();
+            //foreach (var car in query.Take(10))
+            //{
+            //    Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+            //}
             #endregion
             #region Joining Data Using Method Syntax 
             //Joining Data Using Method Syntax
-            var query2 = cars.Join(manufacturers,
-                                     c => new { c.Manufacturer, c.Year },
-                                     m => new { Manufacturer = m.Name, m.Year },
-                                      (c, m) => new
-                                          {
-                                              m.Headquarters,
-                                              c.Name,
-                                              c.Combined
-                                          })
-                                   .OrderByDescending(c => c.Combined)
-                                  .ThenBy(m => m.Name);
+            //var query2 = cars.Join(manufacturers,
+            //                         c => new { c.Manufacturer, c.Year },
+            //                         m => new { Manufacturer = m.Name, m.Year },
+            //                          (c, m) => new
+            //                              {
+            //                                  m.Headquarters,
+            //                                  c.Name,
+            //                                  c.Combined
+            //                              })
+            //                       .OrderByDescending(c => c.Combined)
+            //                      .ThenBy(m => m.Name);
+            //Console.WriteLine();
+            //Console.WriteLine("***** Joining Data Using Method Syntax *****");
+            //Console.WriteLine();
+            //foreach (var car in query2.Take(10))
+            //{
+            //    Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+            //}
+            #endregion
+
+            #region  #region Grouping Data with Query Syntax 
+            var query =
+                from car in cars
+                group car by car.Manufacturer.ToUpper()
+                into manufacturer
+                orderby manufacturer.Key
+                select manufacturer;
+
             Console.WriteLine();
-            Console.WriteLine("***** Joining Data Using Method Syntax *****");
+            Console.WriteLine("***** Grouping Data with Query Syntax  *****");
             Console.WriteLine();
-            foreach (var car in query2.Take(10))
+            foreach (var group in query)
             {
-                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c=>c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+
             }
             #endregion
+
+            #region Grouping Data with Method Syntax 
+            var query2 = cars.GroupBy(c => c.Manufacturer.ToUpper())
+                .OrderBy(g => g.Key);
+            Console.WriteLine();
+            Console.WriteLine("***** Grouping Data with Method Syntax *****");
+            Console.WriteLine();
+            foreach (var group in query2)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+
+            }
+
+            #endregion
         }
+
+
 
         private static List<Car> ProcessFile(string path)
         {
