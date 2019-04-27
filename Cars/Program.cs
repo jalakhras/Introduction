@@ -9,10 +9,14 @@ namespace Cars
     {
         static void Main(string[] args)
         {
+            #region Get Data from data source
             //Finding the Most Fuel Efficient Car
             //Note Combined=> Fuel efficiency
             var cars = ProcessFile("fuel.csv");
             var manufacturers = ProcessManufacturers("manufacturers.csv");
+            #endregion
+            #region Joining Data with Query Syntax
+            //Joining Data with Query Syntax
             var query =
                 from car in cars
                 join manufacturer in manufacturers
@@ -24,11 +28,36 @@ namespace Cars
                     car.Name,
                     car.Combined
                 };
+
+            Console.WriteLine();
+            Console.WriteLine("***** Joining Data with Query Syntax *****");
+            Console.WriteLine();
             foreach (var car in query.Take(10))
             {
                 Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
             }
-
+            #endregion
+            #region Joining Data Using Method Syntax 
+            //Joining Data Using Method Syntax
+            var query2 = cars.Join(manufacturers,
+                                     c => c.Manufacturer,
+                                     m => m.Name,
+                                      (c, m) => new
+                                          {
+                                              m.Headquarters,
+                                              c.Name,
+                                              c.Combined
+                                          })
+                                   .OrderByDescending(c => c.Combined)
+                                  .ThenBy(m => m.Name);
+            Console.WriteLine();
+            Console.WriteLine("***** Joining Data Using Method Syntax *****");
+            Console.WriteLine();
+            foreach (var car in query2.Take(10))
+            {
+                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+            }
+            #endregion
         }
 
         private static List<Car> ProcessFile(string path)
