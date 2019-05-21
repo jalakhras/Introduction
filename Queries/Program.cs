@@ -22,14 +22,26 @@ namespace Queries
                 new Movie { Title = "Casablanca",        Rating = 8.5f, Year = 1942 },
                 new Movie { Title = "Star Wars V",       Rating = 8.7f, Year = 1980 }
             };
+            var DeferredExecutionTime = DateTime.Now; 
+            var queryWithDeferredExecution = movies.Filter(x => x.Year > 2008);
+            var enumerator2 = queryWithDeferredExecution.GetEnumerator();
+            while (enumerator2.MoveNext())
+            {
+                Console.WriteLine(enumerator2.Current.Title);
+            }
+            Console.WriteLine("Time spend of Deferred Execution " + (DateTime.Now - DeferredExecutionTime).TotalMilliseconds);
 
-            var query = movies.Filter(x => x.Year > 2008).OrderByDescending(x=>x.Rating).ToList();
+            var DeferredImmediatelyTime = DateTime.Now;
+            var queryWithImmediately = movies.Filter(x => x.Year > 2008).OrderByDescending(x=>x.Rating).ToList();
 
-            var enumerator = query.GetEnumerator();
+            var enumerator = queryWithImmediately.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 Console.WriteLine(enumerator.Current.Title);
             }
+            Console.WriteLine("Time spend of Immediately Execution " + (DateTime.Now - DeferredImmediatelyTime).TotalMilliseconds);
+
+
         }
     }
 }
